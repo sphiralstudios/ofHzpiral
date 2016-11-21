@@ -38,6 +38,48 @@
 #pragma once
 
 #include "ofxiOS.h"
+#include "ofxKCTouchGui.h"
+#define pi    3.141592653589
+
+struct PolarPoint : public ofPoint {
+    float radius;
+    float theta;
+    
+    PolarPoint () {}
+    ~PolarPoint () {}
+    
+    
+    void polarFromTheta (float thetaMake, float initialRadius) {
+        radius = initialRadius * pow(2,thetaMake/(2*pi));
+        theta = thetaMake;
+        while (theta > (2*pi)) theta -= (2*pi);
+        while (theta < 0) theta += (2*pi);
+        x = radius * cos(fmod(theta, (2 * pi)));
+        y = radius * sin(fmod(theta, (2 * pi)));
+        //    point.y = point.y - 768;
+        //   float tempTheta = -theta - 90;
+        
+        
+        if ((theta < (pi/2) &&  theta > (-pi/2)) || (theta > (3 * pi / 2) && theta < (5 * pi / 2)))
+            
+            //        (fmod(theta, (2 * pi)) < 0.25 || fmod(theta, (2 * pi)) > 0.75)
+            x = fabs(x);
+        else
+            x =  - fabs(x);
+        
+        //    NSLog(@"Theta = %e", theta);
+        if ((theta > 0.0 && theta <= pi) || (theta <= -pi && theta > (-2 * pi)) || (theta > (2*pi) && theta <= (3*pi)))
+            //(fmod(theta, (2 * pi)) < 0.5)
+            
+            y = fabs(y);
+        else
+            y = - fabs(y);
+        //       y = -y;
+        z = 0;
+    }
+    
+};
+
 
 
 class ofApp : public ofxiOSApp{
@@ -67,17 +109,34 @@ public:
     bool bNoise;
     float volume;
     
-    const float pi = 3.14159;
+    //const float pi = 3.14159;
     
     float * lAudio;
     float * rAudio;
     
     //------------------- for the simple sine wave synthesis
-    float targetFrequency;
-    float phase;
-    float phaseAdder;
-    float phaseAdderTarget;
+    float targetFrequency, targetFrequency2;
+    float phase, phase2;
+    float noteGain1, noteGain2;
+    float phaseAdder, phaseAdder2;
+    float phaseAdderTarget, phaseAdderTarget2;
     int initialBufferSize;
+    int appWidth, appHeight;
+    float initialRadius;
+    
+    //KCTouchGui
+    ofxKCTouchGui::Controller controller;
+    
+    //images
+    ofImage background;
+    ofImage pitchSpace;
+    ofImage pitchRing;
+    ofImage pitchPointer;
+    ofImage spiralOverlay;
+    ofImage spiralIn;
+    ofImage spiralOut;
+    ofImage blackKeys;
+    
     
 };
 

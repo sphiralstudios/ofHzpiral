@@ -14,9 +14,7 @@
 		1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 907C5B5E104864A2D3A25745 /* ofxToggle.cpp */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		27D3BAFF1DE2860500F788D0 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D3BAFE1DE2860500F788D0 /* Default-Landscape~ipad.png */; };
-		27D3BB011DE2861800F788D0 /* hzpadIcon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D3BB001DE2861800F788D0 /* hzpadIcon2.png */; };
-		27D3BB031DE2885D00F788D0 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D3BB021DE2885D00F788D0 /* Default-Portrait~ipad.png */; };
+		278F49CC1DE2BDBE0032AA73 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 278F49CB1DE2BDBE0032AA73 /* Icon.png */; };
 		27D3BB051DE2887100F788D0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27D3BB041DE2887100F788D0 /* Images.xcassets */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		29938E05AF78B3DF7A591187 /* ofxFftw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F353204A917F4B2BCEEABE6 /* ofxFftw.cpp */; };
@@ -36,7 +34,7 @@
 		640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2FAC65C491D4231379F3298 /* ofxOscReceiver.cpp */; };
 		66CA411C5A9664E27326BF36 /* ofxTCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C085E327DAB912CFA2A443D /* ofxTCPServer.cpp */; };
 		678E130817951530005B6D19 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 678E130717951530005B6D19 /* Icon@2x.png */; };
-		678E130A17951536005B6D19 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 678E130917951536005B6D19 /* Icon.png */; };
+		678E130A17951536005B6D19 /* Iconof.png in Resources */ = {isa = PBXBuildFile; fileRef = 678E130917951536005B6D19 /* Iconof.png */; };
 		678E130C1795153C005B6D19 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 678E130B1795153C005B6D19 /* Default.png */; };
 		678E130E17951540005B6D19 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 678E130D17951540005B6D19 /* Default@2x.png */; };
 		678E131017951549005B6D19 /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 678E130F17951549005B6D19 /* Default-568h@2x~iphone.png */; };
@@ -117,9 +115,7 @@
 		243DBF5BE62FBC589B0AA8DC /* Element.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Element.h; path = ../../../addons/ofxKCTouchGui2/src/ofxKCTouchGui/Element.h; sourceTree = SOURCE_ROOT; };
 		263D21E1D2D1268EC5945292 /* Controller.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Controller.cpp; path = ../../../addons/ofxKCTouchGui2/src/ofxKCTouchGui/Controller.cpp; sourceTree = SOURCE_ROOT; };
 		26EF3E71A07C6948EAF6709E /* ofxTCPManager.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxTCPManager.h; path = ../../../addons/ofxNetwork/src/ofxTCPManager.h; sourceTree = SOURCE_ROOT; };
-		27D3BAFE1DE2860500F788D0 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		27D3BB001DE2861800F788D0 /* hzpadIcon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hzpadIcon2.png; sourceTree = "<group>"; };
-		27D3BB021DE2885D00F788D0 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		278F49CB1DE2BDBE0032AA73 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = bin/data/Icon.png; sourceTree = "<group>"; };
 		27D3BB041DE2887100F788D0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Hzpiral/Images.xcassets; sourceTree = "<group>"; };
 		2834D88A62CD23F3DE2C47D1 /* ofxButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxButton.h; path = ../../../addons/ofxGui/src/ofxButton.h; sourceTree = SOURCE_ROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -148,7 +144,7 @@
 		64BC6518237660A4C206DD94 /* Touch.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Touch.cpp; path = ../../../addons/ofxKCTouchGui2/src/ofxKCTouchGui/Touch.cpp; sourceTree = SOURCE_ROOT; };
 		65EEFA3DA3526E9CDD9C21F9 /* ofxOscBundle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscBundle.cpp; path = ../../../addons/ofxOsc/src/ofxOscBundle.cpp; sourceTree = SOURCE_ROOT; };
 		678E130717951530005B6D19 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "bin/data/Icon@2x.png"; sourceTree = "<group>"; };
-		678E130917951536005B6D19 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = bin/data/Icon.png; sourceTree = "<group>"; };
+		678E130917951536005B6D19 /* Iconof.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Iconof.png; path = bin/data/Iconof.png; sourceTree = "<group>"; };
 		678E130B1795153C005B6D19 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = bin/data/Default.png; sourceTree = "<group>"; };
 		678E130D17951540005B6D19 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "bin/data/Default@2x.png"; sourceTree = "<group>"; };
 		678E130F17951549005B6D19 /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x~iphone.png"; path = "bin/data/Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
@@ -323,10 +319,8 @@
 			isa = PBXGroup;
 			children = (
 				27D3BB041DE2887100F788D0 /* Images.xcassets */,
-				678E130917951536005B6D19 /* Icon.png */,
-				27D3BAFE1DE2860500F788D0 /* Default-Landscape~ipad.png */,
-				27D3BB021DE2885D00F788D0 /* Default-Portrait~ipad.png */,
-				27D3BB001DE2861800F788D0 /* hzpadIcon2.png */,
+				678E130917951536005B6D19 /* Iconof.png */,
+				278F49CB1DE2BDBE0032AA73 /* Icon.png */,
 				678E130717951530005B6D19 /* Icon@2x.png */,
 				678E130B1795153C005B6D19 /* Default.png */,
 				678E130D17951540005B6D19 /* Default@2x.png */,
@@ -748,14 +742,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				27D3BB051DE2887100F788D0 /* Images.xcassets in Resources */,
-				27D3BB011DE2861800F788D0 /* hzpadIcon2.png in Resources */,
-				27D3BAFF1DE2860500F788D0 /* Default-Landscape~ipad.png in Resources */,
 				678E130817951530005B6D19 /* Icon@2x.png in Resources */,
-				678E130A17951536005B6D19 /* Icon.png in Resources */,
+				678E130A17951536005B6D19 /* Iconof.png in Resources */,
 				678E130C1795153C005B6D19 /* Default.png in Resources */,
 				678E130E17951540005B6D19 /* Default@2x.png in Resources */,
+				278F49CC1DE2BDBE0032AA73 /* Icon.png in Resources */,
 				678E131017951549005B6D19 /* Default-568h@2x~iphone.png in Resources */,
-				27D3BB031DE2885D00F788D0 /* Default-Portrait~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
