@@ -15,6 +15,6 @@ Required open frameworks addons:
 - ofxKCTouchGui2 (multitouch),
 - ofxNetwork (future communication to software synths), 
 - ofxOsc (future communication to software synths)
-(not yet added) - ofxMidi
+- (soon to be added / required) ofxMidi
 
 Much more to come.
