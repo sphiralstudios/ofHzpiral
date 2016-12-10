@@ -1,6 +1,17 @@
 #include "ofApp.h"
+//#include "audioEngine.h"
+
+std::list<GUI*> GUI::fGuiList;
+ztimedmap GUI::gTimedZoneMap;
+
+
+
 
 int main() {
+    
+    
+    
+    
     
     //  here are the most commonly used iOS window settings.
     //------------------------------------------------------
@@ -14,6 +25,11 @@ int main() {
     settings.glesVersion = OFXIOS_RENDERER_ES1; // type of renderer to use, ES1, ES2, ES3
     settings.windowMode = OF_FULLSCREEN;
     ofCreateWindow(settings);
+    
+//    AudioEngine* theEngine = new AudioEngine;
+    
+//    ofApp* myApp = new ofApp;
+//    myApp->audioEngine = theEngine;
     
 	return ofRunApp(new ofApp);
 }
