@@ -23,38 +23,27 @@ void ofApp::setup(){
 
     
     sampleRate = 44100;
-    bufferSize = 32768;
+    
+    
+    // to do: implement real-time fft display along spiral, current add-on doesn't work with iOS
+    //bufferSize = 32768;
     
     
     
-    fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING);
+    //fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING);
     //fft = ofxFft::create(bufferSize, OF_FFT_WINDOW_HAMMING, OF_FFT_FFTW);
-    nBins = fft->getBinSize();
+    //nBins = fft->getBinSize();
     
-    //    cout <<); nBins;
-    binWidth = (float) sampleRate / 2 / nBins;
-    binAmps = new float[nBins];
-//    phase = 0;
-//    phase2 = 0;
-//    phaseAdder = 0.0f;
-//    phaseAdder2 = 0.0f;
-//    phaseAdderTarget = 0.0;
-//    phaseAdderTarget2 = 0.0;
-//    volume = 0.15f;
-//    pan = 0.5;
-//    bNoise = false;
+    //binWidth = (float) sampleRate / 2 / nBins;
+    //binAmps = new float[nBins];
+
     initialRadius = 1;
     
-  //  voiceCounter = -1;
-//    numVoices = 24;
-//    noteVoices = new MapUI*[numVoices];
     audioBuffer = new float*[2];
     audioBuffer[0] = new float[1];
     audioBuffer[1] = new float[1];
     fftHeight = 10;
     
-    //for some reason on the iphone simulator 256 doesn't work - it comes in as 512!
-    //so we do 512 - otherwise we crash
     initialBufferSize = 512;
     
     lAudio = new float[initialBufferSize];
@@ -62,21 +51,6 @@ void ofApp::setup(){
     
     memset(lAudio, 0, initialBufferSize * sizeof(float));
     memset(rAudio, 0, initialBufferSize * sizeof(float));
-    
-    //we do this because we don't have a mouse move function to work with:
-    //targetFrequency = 444.0;
-    //phaseAdderTarget = (targetFrequency / (float)sampleRate) * TWO_PI;
-    //targetFrequency2 = 444.0;
-    //phaseAdderTarget2 = (targetFrequency2 / (float)sampleRate) * TWO_PI;
-    
-    // This call will allow your app's sound to mix with any others that are creating sound
-    // in the background (e.g. the Music app). It should be done before the call to
-    // ofSoundStreamSetup. It sets a category of "play and record" with the "mix with others"
-    // option turned on. There are many other combinations of categories & options that might
-    // suit your app's needs better. See Apple's guide on "Configuring Your Audio Session".
-    
-    // ofxiOSSoundStream::setMixWithOtherApps(true);
-    
     
     ofSetFrameRate(60);
     
@@ -86,8 +60,6 @@ void ofApp::setup(){
     controller.init();
     faustReverb.init(controller.theEngine->sampleRate);
     
-    //image init
-    //float imgScale = appWidth/1024;
     background.load("Background8.png");
     background.setAnchorPercent(0.5, 0.5);
     background.resize(appWidth, appHeight);
@@ -100,10 +72,6 @@ void ofApp::setup(){
     pitchRing.load("Big Ring.png");
     pitchRing.setAnchorPercent(0.5, 0.5);
     pitchRing.resize((int)(814*controller.padScale),(814*controller.padScale));
-//    spiralIn.load("spiralOverlayIn.png");
-//    spiralIn.setAnchorPercent(0.5, 0.5);
-//    spiralOut.load("spiralOverlayOut.png");
-//    spiralOut.setAnchorPercent(0.5, 0.5);
     blackKeys.load("blackKeys.png");
     blackKeys.setAnchorPercent(0.5, 0.5);
     blackKeys.resize((749*controller.padScale),(752*controller.padScale));
@@ -123,11 +91,7 @@ void ofApp::setup(){
     for(int i = 0; i< 12; i++)
         noteNames[i].setAnchorPercent(0.5, 0.5);
     
-    
-    
-  //  controller.sustainOnImage.load("sustainOn.png.");
     ofSoundStreamSetup(2, 0, this, sampleRate, initialBufferSize, 4);
-//    faustEngine.init(sampleRate);
     
 }
 
@@ -161,21 +125,12 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-//    float boxW = 200.0;
-//    float boxH = boxW * 0.75;
-//    
-//    float topY = 30;
-//    float leftX = 30;
-//    float rightX = leftX + boxW + 20;
-    
     ofPushMatrix();
     ofTranslate(appWidth/2, appHeight/2);
     background.draw(0,0);
 
     ofRotateZ(controller.theEngine->pitchRef*360);
     pitchSpace.draw(0, 0);
-    
-    //spiralIn.draw(0,0);
     ofPushStyle();
     ofSetColor(0, 0, 0, controller.blackKeysAlpha);
     blackKeys.draw(0,0);
@@ -193,7 +148,6 @@ void ofApp::draw(){
             PolarPoint newPoint;
             int spiralScale;
             if(appWidth == 1024) spiralScale = 535;
-           // else if (appWidth == 2732) spiralScale = 585;
             else spiralScale = 565;
             for (int i=1; i < spiralScale; i++) {
                 ofSetColor((int)((zoomColor-0.75 + (0.75 * i/spiralScale)) * 255), (int)((zoomColor-0.75 + (0.75 * i/spiralScale)) * 255), (int)((zoomColor-0.75 + (0.75 * i/spiralScale)) * 255), controller.spiralAlpha);
@@ -202,7 +156,7 @@ void ofApp::draw(){
                 oldPoint = newPoint;
             }
     
-    /*
+    /*  fft curve - to add with iOS compatable fft addon
     PolarPoint oldBinPoint;
     oldBinPoint.polarFromTheta(4*myPi, 1);
     ofColor c = ofColor::fromHsb(0, 255, 255);
@@ -228,8 +182,6 @@ void ofApp::draw(){
     
             ofPopMatrix();
             ofPopStyle();
-    
-    //drawGrid - to go into separate function
             ofPushMatrix();
             ofPushStyle();
             if(controller.theEngine->quantizeIsOn)
@@ -278,30 +230,6 @@ void ofApp::draw(){
     pitchPointer.draw(0,0);
     ofPopMatrix();
     
-    // draw the left:
-//    ofSetHexColor(0x333333);
-//    ofDrawRectangle(leftX, topY, boxW, boxH);
-//    ofSetHexColor(0xFFFFFF);
-//    for(int i = 0; i < initialBufferSize; i++){
-//        float x = ofMap(i, 0, initialBufferSize, 0, boxW, true);
-//        ofDrawLine(leftX + x,topY + boxH / 2,leftX + x, topY + boxH / 2 + lAudio[i] * boxH * 0.5);
-//    }
-//    
-//    // draw the right:
-//    ofSetHexColor(0x333333);
-//    ofDrawRectangle(rightX, topY, boxW, boxH);
-//    ofSetHexColor(0xFFFFFF);
-//    for(int i = 0; i < initialBufferSize; i++){
-//        float x = ofMap(i, 0, initialBufferSize, 0, boxW, true);
-//        ofDrawLine(rightX + x, topY + boxH / 2, rightX + x, topY + boxH / 2 + rAudio[i] * boxH * 0.5);
-//    }
-//    
-//    ofSetHexColor(0x333333);
-//    stringstream reportString;
-//    reportString << "volume: (" << volume << ") \npan: (" << pan << ")\nsynthesis: " << ( bNoise ? "noise" : "sine wave" );
-//    reportString << " (" << targetFrequency << "hz)\n";
-//    ofDrawBitmapString(reportString.str(), leftX, topY + boxH + 20);
-    
 }
 
 //--------------------------------------------------------------
@@ -316,13 +244,7 @@ void ofApp::exit(){
 
 //--------------------------------------------------------------
 void ofApp::audioOut(float * output, int bufferSize, int nChannels){
-//    for(int i = 0; i<2; i++){
-//        audioBuffer[i] = new FAUSTFLOAT[bufferSize];
-//    }
-    
-    
-    
-    
+
     for(int i = 0; i < bufferSize; i++){
         audioEngine->audioCallback(1, NULL, audioBuffer);
         faustReverb.compute(1,audioBuffer,audioBuffer);
@@ -335,304 +257,27 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels){
         return;
     }
     
-    fft->setSignal(&lAudio[0]);
+    //  to-do fft audio handling
+    //fft->setSignal(&lAudio[0]);
    // float* curFft = fft->getAmplitude();
     //for (int i =0; i < nBins; i++) {
     //    binAmps[i] = fft->getAmplitudeAtBin((float)i)*((float)i+32)/(fft->getBinSize()/32);
        // cout << binAmps[i];
    // }
-
-    
-//    float leftScale = 1 - pan;
-//    float rightScale = pan;
-//    
-//    // sin (n) seems to have trouble when n is very large, so we
-//    // keep phase in the range of 0-TWO_PI like this:
-//    while(phase > TWO_PI){
-//        phase -= TWO_PI;
-//    }
-//    // keep phase in the range of 0-TWO_PI like this:
-//    while(phase2 > TWO_PI){
-//        phase2 -= TWO_PI;
-//    }
-//    
-//    if(bNoise == false){
-//        // ---------------------- noise --------------
-//        for(int i = 0; i < bufferSize; i++){
-//            lAudio[i] = output[i * nChannels] = 0;
-//            rAudio[i] = output[i * nChannels + 1] = 0;
-//        }
-//    } else {
-//        phaseAdder = 0.05f * phaseAdder + 0.95f * phaseAdderTarget;
-//        phaseAdder2 = 0.05f * phaseAdder2 + 0.95f * phaseAdderTarget2;
-//        for(int i = 0; i < bufferSize; i++){
-//            phase += phaseAdder;
-//            phase2 += phaseAdder2;
-//            float sample = sin(phase);
-//            float sample2 = sin(phase2);
-//            lAudio[i] = output[i * nChannels] = (sample * noteGain1 + sample2 * noteGain2) * volume * leftScale;
-//            rAudio[i] = output[i * nChannels + 1] = (sample * noteGain1 + sample2 * noteGain2) * volume * rightScale;
-//        }
-//    }
-    
     
 }
-
-////newNote returns index of voice in MapUI array noteVoices
-//int ofApp::newNote(PolarPoint* touchPoint) {
-////    PolarPoint touchPoint;
-//    //    if(touch.id ==  0){
-//    //        int width = ofGetWidth();
-//    //        pan = (float)touch.x / (float)width;
-//    //
-//    //        int height = ofGetHeight();
-// 
-////    double xo = touch.x - appWidth/2;
-////    double yo = touch.y - appHeight/2;
-////    touchPoint.polarFromCartesian(xo, yo)
-//    
-////    double r = pow((pow(xo,2)+pow(yo,2)),0.5);
-////    double rmax = pow((pow(appWidth/2,2) + pow(appHeight/2,2)),0.5);
-////    double cutoff = r/rmax * 5000;
-// //   double theta;
-//    double spiral, ratio;
-//    
-////    if (xo<0 && yo<0) {
-////        theta=pi+atan(yo/xo);
-////    } else if (xo>0 && yo<0)
-////        theta=(2*pi)+atan(yo/xo);
-////    else if (xo<0 && yo>0)
-////        theta = pi + atan(yo/xo);
-////    
-////    else {
-////        theta=atan(yo/xo);
-////        
-////    }
-//    //
-//    //            DBG("X = " << xo);
-//    //            DBG("Y = " << yo);
-//    //            DBG("Theta = " << theta);
-//    double freq1, freq2, gain1, gain2;
-//    spiral = (log(touchPoint->radius)/log(2.0));
-//    ratio = ((2 * pi * spiral)-touchPoint->theta)/(2* pi);
-//    if((ratio-floor(ratio))>=0.5) {
-//        freq1 = pow(2.0, (touchPoint->theta/(2*pi)) + 0.55 + (floor(ratio)+1) + 1);
-//        freq2 = pow(2.0, (touchPoint->theta/(2*pi)) + 0.55 + (floor(ratio)) + 1);
-//        gain1 = (ratio - floor(ratio)) /* * gainSlider.getValue()*/;
-//        gain2 = (1 - (ratio-floor(ratio))) /* * gainSlider.getValue()*/;
-//    } else {
-//        freq2 = pow(2.0, (touchPoint->theta/(2*pi)) + 0.55 + (floor(ratio)+1) + 1);
-//        freq1 = pow(2.0, (touchPoint->theta/(2*pi)) + 0.55 + (floor(ratio)) + 1);
-//        gain2 = (ratio - floor(ratio))/* * gainSlider.getValue()*/;
-//        gain1 = (1 - (ratio-floor(ratio)))/* * gainSlider.getValue()*/;
-//    }
-//    //voiceCounter = controller.getTouches().size()-1;
-//    voiceCounter ++;
-//    voiceCounter %= 24;
-//    noteVoices[voiceCounter] = faustEngine.keyOn(voiceCounter, 100);
-//    noteVoices[voiceCounter]->setParamValue("/hzpVoice/freq", freq1);
-//    noteVoices[voiceCounter]->setParamValue("/hzpVoice/freq2", freq2);
-//    noteVoices[voiceCounter]->setParamValue("/hzpVoice/vol1", gain1);
-//    noteVoices[voiceCounter]->setParamValue("/hzpVoice/vol2", gain2);
-//    return voiceCounter;
-//}
-//
-//void ofApp::noteMoved(int noteIndex, PolarPoint* touchPoint) {
-////    PolarPoint touchPoint;
-////    double xo = touch.x - appWidth/2;
-////    double yo = touch.y - appHeight/2;
-////    touchPoint.polarFromCartesian(xo, yo);
-//    
-// //   double r = pow((pow(xo,2)+pow(yo,2)),0.5);
-////    double rmax = pow((pow(appWidth/2,2) + pow(appHeight/2,2)),0.5);
-////    double cutoff = r/rmax * 5000;
-// //   double theta;
-//    double spiral, ratio;
-//    
-////    if (xo<0 && yo<0) {
-////        theta=pi+atan(yo/xo);
-////    } else if (xo>0 && yo<0)
-////        theta=(2*pi)+atan(yo/xo);
-////    else if (xo<0 && yo>0)
-////        theta = pi + atan(yo/xo);
-////    
-////    else {
-////        theta=atan(yo/xo);
-//    
-////    }
-//    //
-//    //            DBG("X = " << xo);
-//    //            DBG("Y = " << yo);
-//    //            DBG("Theta = " << theta);
-//    double freq1, freq2, gain1, gain2;
-//    spiral = (log(touchPoint->radius)/log(2.0));
-//    ratio = ((2 * pi * spiral)-touchPoint->theta)/(2* pi);
-//    if((ratio-floor(ratio))>=0.5) {
-//        freq1 = pow(2.0, (touchPoint->theta/(2*pi)) + 0.55 + (floor(ratio)+1) + 1);
-//        freq2 = pow(2.0, (touchPoint->theta/(2*pi)) + 0.55 + (floor(ratio)) + 1);
-//        gain1 = (ratio - floor(ratio)) /* * gainSlider.getValue()*/;
-//        gain2 = (1 - (ratio-floor(ratio))) /* * gainSlider.getValue()*/;
-//    } else {
-//        freq2 = pow(2.0, (touchPoint->theta/(2*pi)) + 0.55 + (floor(ratio)+1) + 1);
-//        freq1 = pow(2.0, (touchPoint->theta/(2*pi)) + 0.55 + (floor(ratio)) + 1);
-//        gain2 = (ratio - floor(ratio))/* * gainSlider.getValue()*/;
-//        gain1 = (1 - (ratio-floor(ratio)))/* * gainSlider.getValue()*/;
-//    }
-//    
-//    noteVoices[noteIndex]->setParamValue("/hzpVoice/freq", freq1);
-//    noteVoices[noteIndex]->setParamValue("/hzpVoice/freq2", freq2);
-//    noteVoices[noteIndex]->setParamValue("/hzpVoice/vol1", gain1);
-//    noteVoices[noteIndex]->setParamValue("/hzpVoice/vol2", gain2);
-//
-//}
-//
-//
-//void ofApp::noteEnded(int noteIndex) {
-//    faustEngine.keyOff(noteIndex);
-//
-//}
 
 
 //--------------------------------------------------------------
 void ofApp::touchDown(ofTouchEventArgs & touch){
- //   controller.touchDown(touch);
-//    PolarPoint touchPoint;
-////    if(touch.id ==  0){
-////        int width = ofGetWidth();
-////        pan = (float)touch.x / (float)width;
-////        
-////        int height = ofGetHeight();
-//        double xo = touch.x - appWidth/2;
-//        double yo = touch.y - appHeight/2;
-//        double r = pow((pow(xo,2)+pow(yo,2)),0.5);
-//        double rmax = pow((pow(appWidth/2,2) + pow(appHeight/2,2)),0.5);
-//        double cutoff = r/rmax * 5000;
-//        double theta;
-//        double spiral, ratio;
-//        
-//        if (xo<0 && yo<0) {
-//            theta=pi+atan(yo/xo);
-//        } else if (xo>0 && yo<0)
-//            theta=(2*pi)+atan(yo/xo);
-//        else if (xo<0 && yo>0)
-//            theta = pi + atan(yo/xo);
-//        
-//        else {
-//            theta=atan(yo/xo);
-//            
-//        }
-//        //
-//        //            DBG("X = " << xo);
-//        //            DBG("Y = " << yo);
-//        //            DBG("Theta = " << theta);
-//        double freq1, freq2, gain1, gain2;
-//        spiral = (log(r)/log(2.0));
-//        ratio = ((2 * pi * spiral)-theta)/(2* pi);
-//        if((ratio-floor(ratio))>=0.5) {
-//            freq1 = pow(2.0, (theta/(2*pi)) + 0.55 + (floor(ratio)+1) + 1);
-//            freq2 = pow(2.0, (theta/(2*pi)) + 0.55 + (floor(ratio)) + 1);
-//            gain1 = (ratio - floor(ratio)) /* * gainSlider.getValue()*/;
-//            gain2 = (1 - (ratio-floor(ratio))) /* * gainSlider.getValue()*/;
-//        } else {
-//            freq2 = pow(2.0, (theta/(2*pi)) + 0.55 + (floor(ratio)+1) + 1);
-//            freq1 = pow(2.0, (theta/(2*pi)) + 0.55 + (floor(ratio)) + 1);
-//            gain2 = (ratio - floor(ratio))/* * gainSlider.getValue()*/;
-//            gain1 = (1 - (ratio-floor(ratio)))/* * gainSlider.getValue()*/;
-//        }
-//    //voiceCounter = controller.getTouches().size()-1;
-//    voiceCounter ++;
-//    noteVoices[voiceCounter] = faustEngine.keyOn(voiceCounter, 100);
-//    noteVoices[voiceCounter]->setParamValue("/hzpVoice/freq", freq1);
-//    noteVoices[voiceCounter]->setParamValue("/hzpVoice/freq2", freq2);
-//    noteVoices[voiceCounter]->setParamValue("/hzpVoice/vol1", gain1);
-//    noteVoices[voiceCounter]->setParamValue("/hzpVoice/vol2", gain2);
-    
-//    faustEngine.setVoiceParamValue("Freq1", voiceCounter, freq1);
-//    faustEngine.setVoiceParamValue("Freq2", voiceCounter, freq2);
-//    faustEngine.setVoiceParamValue("Gain1", voiceCounter, gain1);
-//    faustEngine.setVoiceParamValue("Gain2", voiceCounter, gain2);
-    
-//        targetFrequency = freq1;
-//        targetFrequency2 = freq2;
-//        phaseAdderTarget = (targetFrequency / (float)sampleRate) * TWO_PI;
-//        phaseAdderTarget2 = (targetFrequency2 / (float)sampleRate) * TWO_PI;
-//        noteGain1 = gain1;
-//        noteGain2 = gain2;
-    //}
-
-    
- //   bNoise = true;
 }
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs & touch){
-  //  controller.touchMoved(touch);
-//    cout << "App Touch Moved";
-    if(touch.id ==  0){
-//        int width = ofGetWidth();
-//        pan = (float)touch.x / (float)width;
-//        
-//        int height = ofGetHeight();
-//        double xo = touch.x - appWidth/2;
-//        double yo = touch.y - appHeight/2;
-//        double r = pow((pow(xo,2)+pow(yo,2)),0.5);
-//        double rmax = pow((pow(appWidth/2,2) + pow(appHeight/2,2)),0.5);
-//        double cutoff = r/rmax * 5000;
-//        double theta;
-//        double spiral, ratio;
-//        
-//        if (xo<0 && yo<0) {
-//            theta=pi+atan(yo/xo);
-//        } else if (xo>0 && yo<0)
-//            theta=(2*pi)+atan(yo/xo);
-//        else if (xo<0 && yo>0)
-//            theta = pi + atan(yo/xo);
-//        
-//        else {
-//            theta=atan(yo/xo);
-//            
-//        }
-//        //
-//        //            DBG("X = " << xo);
-//        //            DBG("Y = " << yo);
-//        //            DBG("Theta = " << theta);
-//        double freq1, freq2, gain1, gain2;
-//        spiral = (log(r)/log(2.0));
-//        ratio = ((2 * pi * spiral)-theta)/(2* pi);
-//        if((ratio-floor(ratio))>=0.5) {
-//            freq1 = pow(2.0, (theta/(2*pi)) + 0.55 + (floor(ratio)+1) + 1);
-//            freq2 = pow(2.0, (theta/(2*pi)) + 0.55 + (floor(ratio)) + 1);
-//                        gain1 = (ratio - floor(ratio)) /* * gainSlider.getValue()*/;
-//                      gain2 = (1 - (ratio-floor(ratio))) /* * gainSlider.getValue()*/;
-//        } else {
-//            freq2 = pow(2.0, (theta/(2*pi)) + 0.55 + (floor(ratio)+1) + 1);
-//            freq1 = pow(2.0, (theta/(2*pi)) + 0.55 + (floor(ratio)) + 1);
-//                        gain2 = (ratio - floor(ratio))/* * gainSlider.getValue()*/;
-//                      gain1 = (1 - (ratio-floor(ratio)))/* * gainSlider.getValue()*/;
-//        }
-//        
-//        noteVoices[voiceCounter]->setParamValue("/hzpVoice/freq", freq1);
-//        noteVoices[voiceCounter]->setParamValue("/hzpVoice/freq2", freq2);
-//        noteVoices[voiceCounter]->setParamValue("/hzpVoice/vol1", gain1);
-//        noteVoices[voiceCounter]->setParamValue("/hzpVoice/vol2", gain2);
-        
-        
-//        targetFrequency = freq1;
-//        targetFrequency2 = freq2;
-//        phaseAdderTarget = (targetFrequency / (float)sampleRate) * TWO_PI;
-//        phaseAdderTarget2 = (targetFrequency2 / (float)sampleRate) * TWO_PI;
-//        noteGain1 = gain1;
-//        noteGain2 = gain2;
-    }
 }
 
 //--------------------------------------------------------------
 void ofApp::touchUp(ofTouchEventArgs & touch){
-//    bNoise = false;
-//    faustEngine.keyOff(voiceCounter);
-//    voiceCounter --;
-//    controller.touchUp(touch);
- //   voiceCounter = controller.getTouches().size();
 }
 
 //--------------------------------------------------------------

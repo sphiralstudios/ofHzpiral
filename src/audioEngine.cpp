@@ -189,13 +189,13 @@ void AudioEngine::noteEnded(int noteIndex) {
 void AudioEngine::makePitchForNote(Note* note){
     double spiral, ratio, qTheta;
     
- //   double freq1, freq2, gain1, gain2;
     spiral = (log(note->polarLoc.radius)/log(2.0));
     
     if (quantizeIsOn)
         qTheta=quantize(note->polarLoc.theta);
     else {
         qTheta = note->polarLoc.theta;
+        // to-do grid turn:
         //    if (!noteSettings.gridTurn || (!noteSettings.quantizeIsOn && noteSettings.gridTurn))
         qTheta -= (pitchRef * 2 * myPi);
     }
@@ -227,7 +227,7 @@ float AudioEngine::quantize (float theta) {
         return theta;
     }
     
-    int i = 0;
+    int i = 0; // to-do: implement grid turn and pointer
     double qtheta;
     //    if (theta > 1.0)
     //        theta -=1.0;
@@ -242,7 +242,8 @@ float AudioEngine::quantize (float theta) {
     
     while (theta < 0) theta += (2 * myPi);
     while (theta > (2*myPi)) theta -= (2*myPi);
-            
+    
+    // grid turn and pointer code for future implementation
 //        while (i < [wheelGrid.tuning count]) {
 //            
 //            if (theta < (([[wheelGrid.tuning objectAtIndex:i] getRangeEndTheta]) * pi /180)) {
@@ -284,6 +285,7 @@ float AudioEngine::evenQuantize(float theta) {
     double qTheta;
     //    int i;
     double tdisp;
+    // code for pointer and grid turn implementation
     //    theta += noteSettings.pointerRef * 2*pi;
     //    if(noteSettings.gridTurn)
     //    tdisp = ((noteSettings.pointerRef * q));
@@ -320,67 +322,54 @@ float AudioEngine::evenQuantize(float theta) {
 }
 
 void AudioEngine::updateMasterVolume(int noteIndex) {
-  //  for(int i = 0; i < numVoices; i++)
     noteVoices[noteIndex]->setParamValue("/hzpVoice/gain", masterVolume/2);
 }
 
 void AudioEngine::updateAttack(int noteIndex){
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/att", attack);
 }
 
 void AudioEngine::updateDecay(int noteIndex){
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/dec", decay);
 }
 
 void AudioEngine::updateSustain(int noteIndex){
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/sus", sustain);
 }
 
 void AudioEngine::updateRelease(int noteIndex){
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/rel", release);
 }
 
 void AudioEngine::updateSinMix(int noteIndex){
-  //  for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/sineMix", sinMix);
 }
 
 void AudioEngine::updateSawMix(int noteIndex) {
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/sawMix", sawMix);
 }
 
 void AudioEngine::updateSquareMix(int noteIndex) {
-  //  for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/squareMix", squareMix);
 }
 
 void AudioEngine::updateTriMix(int noteIndex) {
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/triMix", triMix);
 }
 
 void AudioEngine::updateCutoff(int noteIndex) {
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/cutoff", cutoff);
 }
 
 void AudioEngine::updateQ(int noteIndex) {
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/Q", Q);
 }
 
 void AudioEngine::updateTremStr(int noteIndex) {
-//    for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/tremstr", tremStr);
 }
 
 void AudioEngine::updateTremRate(int noteIndex) {
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/tremrate", tremRate);
 }
 
@@ -388,7 +377,6 @@ void AudioEngine::updateTremOn(int noteIndex) {
     int tremInt;
     if(tremOn) tremInt = 1;
     else tremInt = 0;
- //   for(int i = 0; i < numVoices; i++)
         noteVoices[noteIndex]->setParamValue("/hzpVoice/tremOn", tremInt);
 
 }
@@ -396,13 +384,5 @@ void AudioEngine::updateTremOn(int noteIndex) {
 
 void AudioEngine::audioCallback(int count, float** inputs, float** outputs){
     faustEngine.computeAudio(count, inputs, outputs);
-//    cout << outputs[0][0];
 }
 
-//int AudioEngine::getAppWidth(void) {
-//    return appWidth;
-//}
-//
-//int AudioEngine::getAppHeight(void) {
-//    return appHeight;
-//}

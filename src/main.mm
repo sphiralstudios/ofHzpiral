@@ -25,11 +25,6 @@ int main() {
     settings.glesVersion = OFXIOS_RENDERER_ES1; // type of renderer to use, ES1, ES2, ES3
     settings.windowMode = OF_FULLSCREEN;
     ofCreateWindow(settings);
-    
-//    AudioEngine* theEngine = new AudioEngine;
-    
-//    ofApp* myApp = new ofApp;
-//    myApp->audioEngine = theEngine;
-    
+        
 	return ofRunApp(new ofApp);
 }

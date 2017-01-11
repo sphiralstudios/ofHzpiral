@@ -15,8 +15,6 @@
 
 #include "ofPoint.h"
 
-//#include <stdio.h>
-
 struct PolarPoint : public ofPoint {
     double radius;
     double theta;
