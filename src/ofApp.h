@@ -4,7 +4,7 @@
 #include "ofxiOS.h"
 #include "ofxKCTouchGui.h"
 #include "audioEngine.h"
-#include "ofxFft.h"
+//#include "ofxFft.h"  // fft visualization not yet implemented
 #include "FaustReverb.h"
 #ifndef pi
 #define pi    3.141592653589
@@ -40,7 +40,7 @@ public:
     float * lAudio;
     float * rAudio;
     
-    ofxFft * fft;
+//    ofxFft * fft;
     int nBins;
     float binWidth, fftHeight;
     float* binAmps;
